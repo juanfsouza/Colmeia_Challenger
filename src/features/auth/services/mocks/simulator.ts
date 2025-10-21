@@ -1,11 +1,10 @@
 import { delay, shouldSimulateFailure, generateId, generateOrderId } from '@/lib/utils'
 import { 
-  mockProducts, 
   mockUsers, 
   mockPasswords, 
   paymentFailureRates, 
   paymentProcessingTimes 
-} from './data'
+} from '../mockAuthData'
 import { 
   User, 
   Product, 
@@ -71,21 +70,6 @@ export class AuthSimulator {
     }
     
     return null
-  }
-}
-
-// Simulador de produtos
-export class ProductSimulator {
-  async getProducts(): Promise<Product[]> {
-    await delay(800)
-    
-    return [...mockProducts]
-  }
-  
-  async getProduct(id: string): Promise<Product | null> {
-    await delay(500)
-    
-    return mockProducts.find(p => p.id === id) || null
   }
 }
 
@@ -187,6 +171,5 @@ export class OrderSimulator {
 
 // Instâncias dos simuladores
 export const authSimulator = new AuthSimulator()
-export const productSimulator = new ProductSimulator()
 export const paymentSimulator = new PaymentSimulator()
 export const orderSimulator = new OrderSimulator()
