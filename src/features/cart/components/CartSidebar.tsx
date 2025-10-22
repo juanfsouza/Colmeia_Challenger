@@ -44,7 +44,7 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed right-0 top-0 h-full w-96 bg-card shadow-xl z-50"
+            className="fixed -right-4 top-0 h-full w-96 bg-card shadow-xl z-50"
           >
         <div className="flex flex-col h-full">
           {/* Header */}

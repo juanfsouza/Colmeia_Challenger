@@ -1,24 +1,53 @@
-import { ProductsClient } from '@/features/products/components/ProductsClient'
+'use client'
+
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute'
 import { Header } from '@/components/Header'
+import { Hero } from '@/components/Hero'
+import { FeaturedProducts } from '@/components/FeaturedProducts'
+import { ProductsSlider } from '@/features/products/components/ProductsSlider'
+import { useState, useEffect } from 'react'
+import { useCart } from '@/features/cart/context/CartContext'
+import { productService } from '@/features/products/services/productService'
+import { Product } from '@/types'
 
 export default function ProductsPage() {
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const { addToCart } = useCart()
+
+  useEffect(() => {
+    const loadFeaturedProducts = async () => {
+      try {
+        const products = await productService.getProducts()
+        // Pegar os primeiros 6 produtos como destaque
+        setFeaturedProducts(products.slice(0, 6))
+      } catch (error) {
+        console.error('Erro ao carregar produtos em destaque:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadFeaturedProducts()
+  }, [])
+
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-background">
         {/* Header com navegação e carrinho */}
         <Header />
+        <Hero />
+        <FeaturedProducts />
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-foreground">Produtos</h1>
-            <p className="mt-2 text-muted-foreground">
-              Explore nossa seleção de produtos incríveis
-            </p>
-          </div>
-          
-          <ProductsClient />
-        </div>
+        {/* Products Slider with CurvedLoop Effect */}
+        {!isLoading && featuredProducts.length > 0 && (
+          <ProductsSlider
+            products={featuredProducts}
+            onAddToCart={addToCart}
+            title="Mels de Sabores"
+            subtitle="Descubra nossa variedade de sabores únicos"
+          />
+        )}
       </div>
     </ProtectedRoute>
   )

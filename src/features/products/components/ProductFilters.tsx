@@ -1,7 +1,6 @@
 'use client'
 
 import { categories } from '../services/mockProducts'
-import { useState } from 'react'
 
 interface ProductFiltersProps {
   selectedCategory: string

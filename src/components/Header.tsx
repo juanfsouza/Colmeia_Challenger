@@ -32,7 +32,7 @@ export function Header() {
                 animation="slideUp"
                 delay={0.1}
               >
-                Comeia Store
+                Colmeia Store
               </TextAnimate>
             </button>
           </div>

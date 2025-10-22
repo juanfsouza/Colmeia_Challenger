@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Comeia Checkout",
+  title: "Colmeia Checkout",
   description: "Sistema de checkout com autenticação mockada",
 };
 
