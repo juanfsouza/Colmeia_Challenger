@@ -1,5 +1,6 @@
 'use client'
 
+// CartContext - Updated to fix build error - 2024-12-19
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { Product, CartItem, Cart, CartContextType, CartProviderProps } from '@/types'
 import { getFromStorage, setToStorage } from '@/lib/utils'
@@ -78,7 +79,7 @@ export function CartProvider({ children }: CartProviderProps) {
   const clearCart = () => {
     const newCart = { items: [], total: 0 }
     setCart(newCart)
-    setToStorage('cart', newCart)
+    setToStorage(STORAGE_KEYS.CART, newCart)
   }
 
   // Calcula total de itens no carrinho
@@ -107,6 +108,7 @@ export function CartProvider({ children }: CartProviderProps) {
     removeFromCart,
     updateQuantity,
     clearCart,
+    getTotalItems,
     getItemQuantity: (productId: string) => {
       const item = cart.items.find(item => item.product.id === productId)
       return item ? item.quantity : 0

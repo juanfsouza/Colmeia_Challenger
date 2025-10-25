@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍯 Colmeia Store - Desafio Frontend Checkout
 
-## Getting Started
+Aplicação web de e-commerce especializada em mel artesanal com fluxo de checkout completo.
 
-First, run the development server:
+## 🚀 Como executar
 
 ```bash
+# Instalar dependências
+npm install
+
+# Executar em desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌐 Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+A aplicação está configurada para deploy no Vercel:
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## 🔑 Login
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Use qualquer email e senha - o sistema é totalmente mockado.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ✨ Funcionalidades
 
-## Deploy on Vercel
+- **Autenticação** - Login/cadastro único
+- **Catálogo** - Lista de produtos com carrinho
+- **Checkout** - PIX, Cartão de Crédito, Boleto
+- **Responsivo** - Mobile-first design
+- **Animações** - Framer Motion
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠️ Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **React** + **Next.js**
+- **TypeScript**
+- **Tailwind CSS**
+- **Shadcn UI**
+- **Framer Motion**
+
+## 📱 Fluxo
+
+1. Login → 2. Produtos → 3. Carrinho → 4. Checkout → 5. Pagamento

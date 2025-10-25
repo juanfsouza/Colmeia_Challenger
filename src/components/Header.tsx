@@ -37,12 +37,10 @@ export function Header() {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
 
-  const getTotalItems = () => {
-    if (!items || !Array.isArray(items)) {
-      return 0
-    }
-    return items.reduce((sum, item) => sum + item.quantity, 0)
-  }
+  // Calcular total de itens diretamente
+  const totalItems = items && Array.isArray(items) 
+    ? items.reduce((sum, item) => sum + item.quantity, 0)
+    : 0
 
   return (
     <>
@@ -86,9 +84,9 @@ export function Header() {
                 }`}
               >
                 <ShoppingCart className="h-5 w-5" />
-                {getTotalItems() > 0 && (
+                {totalItems > 0 && (
                   <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                    {getTotalItems()}
+                    {totalItems}
                   </span>
                 )}
               </Button>
@@ -136,9 +134,9 @@ export function Header() {
                 }`}
               >
                 <ShoppingCart className="h-5 w-5" />
-                {getTotalItems() > 0 && (
+                {totalItems > 0 && (
                   <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                    {getTotalItems()}
+                    {totalItems}
                   </span>
                 )}
               </Button>

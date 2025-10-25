@@ -14,9 +14,10 @@ export interface CartContextType {
   items: CartItem[]
   total: number
   isLoading: boolean
-  addToCart: (product: Product) => void
+  addToCart: (product: Product, quantity?: number) => void
   removeFromCart: (productId: string) => void
   updateQuantity: (productId: string, quantity: number) => void
   clearCart: () => void
+  getTotalItems: () => number
   getItemQuantity: (productId: string) => number
 }

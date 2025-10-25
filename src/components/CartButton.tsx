@@ -5,10 +5,12 @@ import { useState } from 'react'
 import { CartSidebar } from '@/features/cart/components/CartSidebar'
 
 export function CartButton() {
-  const { getTotalItems } = useCart()
+  const { items } = useCart()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
-  const totalItems = getTotalItems()
+  const totalItems = items && Array.isArray(items) 
+    ? items.reduce((sum, item) => sum + (item?.quantity || 0), 0)
+    : 0
 
   return (
     <>
