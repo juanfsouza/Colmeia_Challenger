@@ -73,8 +73,8 @@ export function PaymentStatusTracker({ orderId, paymentMethod, onStatusChange, o
       const processingTime = getProcessingTime(paymentMethod)
       await new Promise(resolve => setTimeout(resolve, processingTime))
       
-      // Simula resultado (80% sucesso, 20% falha)
-      const isSuccess = Math.random() > 0.2
+      // Simula resultado (100% sucesso em desenvolvimento)
+      const isSuccess = true // Sempre sucesso para testes
       
       if (isSuccess) {
         setCurrentStatus('paid')

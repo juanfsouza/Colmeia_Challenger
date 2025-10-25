@@ -92,11 +92,11 @@ export type CheckoutFormData = z.infer<typeof checkoutSchema>
 export function formatCreditCardNumber(value: string): string {
   const cleanValue = value.replace(/\D/g, '')
   const formatted = cleanValue.replace(/(\d{4})(?=\d)/g, '$1 ')
-  return formatted.slice(0, 19) // 16 dígitos + 3 espaços
+  return formatted.slice(0, 19)
 }
 
 export function formatExpiryDate(value: string): string {
   const cleanValue = value.replace(/\D/g, '')
   const formatted = cleanValue.replace(/(\d{2})(?=\d)/g, '$1/')
-  return formatted.slice(0, 5) // MM/AA
+  return formatted.slice(0, 5)
 }

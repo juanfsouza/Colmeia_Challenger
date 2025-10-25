@@ -1,25 +1,11 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { Product, CartItem, Cart } from '@/types'
+import React, { createContext, useContext, useState, useEffect } from 'react'
+import { Product, CartItem, Cart, CartContextType, CartProviderProps } from '@/types'
 import { getFromStorage, setToStorage } from '@/lib/utils'
-
-// Interface do contexto do carrinho
-interface CartContextType {
-  cart: Cart
-  addToCart: (product: Product, quantity?: number) => void
-  removeFromCart: (productId: string) => void
-  updateQuantity: (productId: string, quantity: number) => void
-  clearCart: () => void
-  getTotalItems: () => number
-  getTotalPrice: () => number
-}
+import { STORAGE_KEYS } from '@/lib/constants'
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
-
-interface CartProviderProps {
-  children: ReactNode
-}
 
 export function CartProvider({ children }: CartProviderProps) {
   // Estado do carrinho
@@ -47,7 +33,7 @@ export function CartProvider({ children }: CartProviderProps) {
       const newTotal = newItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)
       
       const newCart = { items: newItems, total: newTotal }
-      setToStorage('cart', newCart)
+      setToStorage(STORAGE_KEYS.CART, newCart)
       
       return newCart
     })
@@ -60,7 +46,7 @@ export function CartProvider({ children }: CartProviderProps) {
       const newTotal = newItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)
       
       const newCart = { items: newItems, total: newTotal }
-      setToStorage('cart', newCart)
+      setToStorage(STORAGE_KEYS.CART, newCart)
       
       return newCart
     })
@@ -82,7 +68,7 @@ export function CartProvider({ children }: CartProviderProps) {
       const newTotal = newItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)
       
       const newCart = { items: newItems, total: newTotal }
-      setToStorage('cart', newCart)
+      setToStorage(STORAGE_KEYS.CART, newCart)
       
       return newCart
     })
@@ -107,20 +93,24 @@ export function CartProvider({ children }: CartProviderProps) {
 
   // Carrega carrinho do localStorage ao inicializar
   useEffect(() => {
-    const storedCart = getFromStorage<Cart>('cart')
+    const storedCart = getFromStorage<Cart>(STORAGE_KEYS.CART)
     if (storedCart) {
       setCart(storedCart)
     }
   }, [])
 
   const value: CartContextType = {
-    cart,
+    items: cart.items,
+    total: cart.total,
+    isLoading: false,
     addToCart,
     removeFromCart,
     updateQuantity,
     clearCart,
-    getTotalItems,
-    getTotalPrice
+    getItemQuantity: (productId: string) => {
+      const item = cart.items.find(item => item.product.id === productId)
+      return item ? item.quantity : 0
+    }
   }
 
   return (

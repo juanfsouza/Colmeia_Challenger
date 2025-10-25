@@ -2,67 +2,65 @@ import { Product } from '@/types'
 
 export const mockProducts: Product[] = [
   {
-    id: '1',
-    name: 'Smartphone Samsung Galaxy S24',
-    price: 2999.99,
-    description: 'Smartphone com tela de 6.2", 128GB, 8GB RAM, câmera tripla de 50MP',
-    image: 'https://via.placeholder.com/300x200/3B82F6/FFFFFF?text=Samsung+Galaxy+S24',
-    category: 'Smartphones',
+    id: "mel-1",
+    name: "Mel de Eucalipto",
+    price: 32.90,
+    description: "Mel puro de eucalipto com sabor suave e propriedades expectorantes naturais.",
+    image: "/images/item-1.webp",
+    category: "Mel de Sabores",
+    stock: 25
+  },
+  {
+    id: "mel-2", 
+    name: "Mel de Laranjeira",
+    price: 28.90,
+    description: "Mel floral de laranjeira com aroma cítrico e sabor delicadamente doce.",
+    image: "/images/item-2.webp",
+    category: "Mel de Sabores",
+    stock: 30
+  },
+  {
+    id: "mel-3",
+    name: "Mel de Jataí",
+    price: 45.90,
+    description: "Mel raro de jataí, conhecido por sua textura cremosa e sabor exótico.",
+    image: "/images/item-3.webp",
+    category: "Mel de Sabores",
     stock: 15
   },
   {
-    id: '2',
-    name: 'Notebook Dell Inspiron 15',
-    price: 2499.99,
-    description: 'Notebook com Intel i5, 8GB RAM, 256GB SSD, tela 15.6" Full HD',
-    image: 'https://via.placeholder.com/300x200/10B981/FFFFFF?text=Dell+Inspiron+15',
-    category: 'Notebooks',
-    stock: 8
+    id: "mel-4",
+    name: "Mel de Silvestre",
+    price: 38.90,
+    description: "Mel silvestre multifloral com sabor único e propriedades nutricionais completas.",
+    image: "/images/item-2.webp",
+    category: "Mel de Sabores",
+    stock: 20
   },
   {
-    id: '3',
-    name: 'Fone de Ouvido Sony WH-1000XM4',
-    price: 899.99,
-    description: 'Fone de ouvido com cancelamento de ruído ativo, 30h de bateria',
-    image: 'https://via.placeholder.com/300x200/F59E0B/FFFFFF?text=Sony+WH-1000XM4',
-    category: 'Áudio',
-    stock: 12
+    id: "mel-5",
+    name: "Mel de Assa-peixe",
+    price: 42.90,
+    description: "Mel de assa-peixe com sabor característico e propriedades medicinais.",
+    image: "/images/item-3.webp",
+    category: "Mel de Sabores",
+    stock: 18
   },
   {
-    id: '4',
-    name: 'Smartwatch Apple Watch Series 9',
-    price: 1899.99,
-    description: 'Smartwatch com GPS, monitoramento de saúde, resistente à água',
-    image: 'https://via.placeholder.com/300x200/EF4444/FFFFFF?text=Apple+Watch+Series+9',
-    category: 'Wearables',
-    stock: 6
-  },
-  {
-    id: '5',
-    name: 'Tablet iPad Air 5ª Geração',
-    price: 3299.99,
-    description: 'Tablet com chip M1, 64GB, tela 10.9", suporte ao Apple Pencil',
-    image: 'https://via.placeholder.com/300x200/8B5CF6/FFFFFF?text=iPad+Air+5th+Gen',
-    category: 'Tablets',
-    stock: 4
-  },
-  {
-    id: '6',
-    name: 'Monitor LG UltraWide 29"',
-    price: 1299.99,
-    description: 'Monitor 21:9, Full HD, 75Hz, USB-C, ideal para produtividade',
-    image: 'https://via.placeholder.com/300x200/06B6D4/FFFFFF?text=LG+UltraWide+29',
-    category: 'Monitores',
-    stock: 10
+    id: "mel-6",
+    name: "Mel de Caju",
+    price: 35.90,
+    description: "Mel de caju com sabor tropical e aroma marcante das flores do cajueiro.",
+    image: "/images/item-1.webp",
+    category: "Mel de Sabores",
+    stock: 22
   }
 ]
 
 export const categories = [
   'Todos',
-  'Smartphones',
-  'Notebooks',
-  'Áudio',
-  'Wearables',
-  'Tablets',
-  'Monitores'
+  'Mel de Sabores',
+  'Mel Puro',
+  'Produtos Apícolas',
+  'Acessórios'
 ]

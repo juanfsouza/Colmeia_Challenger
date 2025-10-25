@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ProductsSlider } from '@/features/products/components/ProductsSlider'
-import { ProductList } from '@/features/products/components/ProductList'
 import { FeaturedProducts } from './FeaturedProducts'
 import { useCart } from '@/features/cart/context/CartContext'
 import { productService } from '@/features/products/services/productService'
@@ -93,7 +92,9 @@ export function Products() {
                 Explore nossa coleção completa de produtos
               </p>
             </div>
-            <ProductList />
+            <div className="text-center text-muted-foreground">
+              <p>Lista de produtos será implementada em breve</p>
+            </div>
           </div>
         </motion.section>
       </div>

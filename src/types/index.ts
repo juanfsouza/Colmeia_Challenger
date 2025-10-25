@@ -1,4 +1,3 @@
-// Tipos fundamentais do domínio
 export interface User {
   id: string
   name: string
@@ -34,7 +33,6 @@ export interface Cart {
   total: number
 }
 
-// Tipos de pagamento
 export type PaymentMethodType = 'pix' | 'credit_card' | 'boleto'
 
 export interface PaymentMethod {
@@ -54,10 +52,8 @@ export interface CreditCardData {
 }
 
 export interface BoletoData {
-  // Boleto não precisa de dados específicos
 }
 
-// Status do pedido
 export type OrderStatus = 'pending' | 'processing' | 'paid' | 'failed' | 'expired'
 
 export interface Order {
@@ -71,20 +67,6 @@ export interface Order {
   updatedAt: Date
 }
 
-// Tipos para autenticação
-export interface AuthUser {
-  id: string
-  name: string
-  email: string
-}
-
-export interface AuthState {
-  user: AuthUser | null
-  isAuthenticated: boolean
-  isLoading: boolean
-}
-
-// Tipos para formulários
 export interface LoginFormData {
   email: string
   password: string
@@ -103,7 +85,6 @@ export interface CheckoutFormData {
   pix?: PixData
 }
 
-// Tipos para API responses
 export interface ApiResponse<T> {
   data: T
   success: boolean
@@ -114,3 +95,6 @@ export interface ApiError {
   message: string
   code: string
 }
+
+export * from './components'
+export * from './contexts'

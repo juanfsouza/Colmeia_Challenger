@@ -1,4 +1,4 @@
-import { Order, PaymentMethod, PaymentResult, OrderStatus } from '@/types'
+import { Order, PaymentMethod, PaymentResult, OrderStatus, CartItem, User, PixData } from '@/types'
 import { delay, generateOrderId } from '@/lib/utils'
 
 export class CheckoutService {
@@ -27,7 +27,7 @@ export class CheckoutService {
   // Cria um pedido
   async createOrder(
     userId: string,
-    items: any[],
+    items: CartItem[],
     paymentMethod: PaymentMethod,
     total: number
   ): Promise<Order> {
@@ -35,7 +35,7 @@ export class CheckoutService {
     
     const order: Order = {
       id: generateOrderId(),
-      user: { id: userId } as any,
+      user: { id: userId } as User,
       items,
       paymentMethod,
       status: 'pending',
@@ -56,7 +56,7 @@ export class CheckoutService {
   }
 
   // Simula geração de PIX
-  async generatePix(paymentData: any): Promise<{ qrCode: string; code: string }> {
+  async generatePix(paymentData: PixData): Promise<{ qrCode: string; code: string }> {
     await delay(1500)
     
     return {

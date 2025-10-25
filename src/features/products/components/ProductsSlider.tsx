@@ -3,73 +3,37 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react'
-import { Product } from '@/types'
+import { Product, ProductsSliderProps } from '@/types'
 import { formatCurrency } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import CurvedLoop from '@/components/ui/CurvedLoop'
 import { WaveSeparator } from '@/components/ui/WaveSeparator'
-
-interface ProductsSliderProps {
-  products: Product[]
-  onAddToCart: (product: Product) => void
-  title?: string
-  subtitle?: string
-}
+import { PRODUCT_CONSTANTS } from '../constants'
 
 export function ProductsSlider({ 
-  products, 
-  onAddToCart, 
-  title = "Mels de Sabores", 
-  subtitle = "Descubra nossa variedade de sabores únicos" 
+  products,
+  onAddToCart,
+  title = PRODUCT_CONSTANTS.DEFAULT_TEXTS.TITLE, 
+  subtitle = PRODUCT_CONSTANTS.DEFAULT_TEXTS.SUBTITLE 
 }: ProductsSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>({})
+  const [successStates, setSuccessStates] = useState<{ [key: string]: boolean }>({})
 
-  // Produtos de mel de sabores usando as imagens da pasta public/images
-  const melSabores: Product[] = [
-    {
-      id: "mel-1",
-      name: "Mel de Eucalipto",
-      price: 32.90,
-      description: "Mel puro de eucalipto com sabor suave e propriedades expectorantes naturais.",
-      image: "/images/item-1.webp",
-      category: "Mel de Sabores",
-      stock: 25
-    },
-    {
-      id: "mel-2", 
-      name: "Mel de Laranjeira",
-      price: 28.90,
-      description: "Mel floral de laranjeira com aroma cítrico e sabor delicadamente doce.",
-      image: "/images/item-2.webp",
-      category: "Mel de Sabores",
-      stock: 30
-    },
-    {
-      id: "mel-3",
-      name: "Mel de Jataí",
-      price: 45.90,
-      description: "Mel raro de jataí, conhecido por sua textura cremosa e sabor exótico.",
-      image: "/images/item-3.webp",
-      category: "Mel de Sabores",
-      stock: 15
-    }
-  ]
-
-  const itemsPerPage = 3
+  const itemsPerPage = PRODUCT_CONSTANTS.SLIDER_CONFIG.ITEMS_PER_PAGE
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 1000)
+    }, PRODUCT_CONSTANTS.SLIDER_CONFIG.LOADING_DELAY)
     return () => clearTimeout(timer)
   }, [])
 
-  const totalPages = Math.ceil(melSabores.length / itemsPerPage)
-  const currentProducts = melSabores.slice(
+  const totalPages = Math.ceil(products.length / itemsPerPage)
+  const currentProducts = products.slice(
     currentIndex * itemsPerPage,
     (currentIndex + 1) * itemsPerPage
   )
@@ -83,13 +47,29 @@ export function ProductsSlider({
   }
 
   const handleAddToCart = async (product: Product) => {
+    if (loadingStates[product.id] || product.stock === 0) return
+    
     setLoadingStates(prev => ({ ...prev, [product.id]: true }))
     
-    // Simula delay de carregamento
-    await new Promise(resolve => setTimeout(resolve, 800))
-    
-    addToCart(product)
-    setLoadingStates(prev => ({ ...prev, [product.id]: false }))
+    try {
+      // Simula delay de processamento
+      await new Promise(resolve => setTimeout(resolve, 800))
+      
+      // Adiciona ao carrinho
+      onAddToCart(product)
+      
+      // Mostra feedback de sucesso
+      setSuccessStates(prev => ({ ...prev, [product.id]: true }))
+      setLoadingStates(prev => ({ ...prev, [product.id]: false }))
+      
+      // Remove feedback de sucesso após 2 segundos
+      setTimeout(() => {
+        setSuccessStates(prev => ({ ...prev, [product.id]: false }))
+      }, 2000)
+    } catch (error) {
+      console.error('Erro ao adicionar produto ao carrinho:', error)
+      setLoadingStates(prev => ({ ...prev, [product.id]: false }))
+    }
   }
 
   return (
@@ -107,23 +87,11 @@ export function ProductsSlider({
         {/* First curved text */}
         <div className="absolute top-20 left-0 w-full h-32 opacity-10">
           <CurvedLoop
-            marqueeText="★ MELS DE SABORES ★ EUCALIPTO ★ LARANJEIRA ★ JATAÍ ★"
+            marqueeText="★ CREATIVE ★ MAKES ★ AGENTS ★ CMA ★"
             speed={1.5}
             curveAmount={200}
             direction="left"
             className="text-orange-400"
-            interactive={false}
-          />
-        </div>
-        
-        {/* Second curved text forming X pattern */}
-        <div className="absolute bottom-20 left-0 w-full h-32 opacity-10">
-          <CurvedLoop
-            marqueeText="★ COLMEIA STORE ★ SABORES ÚNICOS ★ NATURAL ★ PURO ★"
-            speed={-1.5}
-            curveAmount={-200}
-            direction="right"
-            className="text-yellow-400"
             interactive={false}
           />
         </div>
@@ -145,52 +113,30 @@ export function ProductsSlider({
           </p>
         </motion.div>
 
-        {/* Navigation Controls */}
-        <div className="flex justify-between items-center mb-8">
+        {/* Products Grid with Side Navigation */}
+        <div className="flex items-center gap-4 md:gap-6">
+          {/* Left Navigation Button */}
           <motion.button
             onClick={prevSlide}
             disabled={totalPages <= 1}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="p-3 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-3 md:p-4 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-white/20 flex-shrink-0"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
           </motion.button>
 
-          <div className="flex space-x-2">
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex ? 'bg-orange-500' : 'bg-white/30'
-                }`}
-              />
-            ))}
-          </div>
-
-          <motion.button
-            onClick={nextSlide}
-            disabled={totalPages <= 1}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="p-3 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </motion.button>
-        </div>
-
-        {/* Products Grid */}
-        <div className="overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
+          {/* Products Grid */}
+          <div className="flex-1 overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              >
               {isLoading ? (
                 // Skeleton loading
                 Array.from({ length: itemsPerPage }).map((_, index) => (
@@ -212,7 +158,7 @@ export function ProductsSlider({
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    whileHover={{ y: -5 }}
+                    whileHover={{ y: -3 }}
                   >
                     <Card className="overflow-hidden bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10 transition-all duration-300">
                       <div className="aspect-w-16 aspect-h-12">
@@ -220,7 +166,7 @@ export function ProductsSlider({
                           <img
                             src={product.image}
                             alt={product.name}
-                            className="w-full h-48 object-cover"
+                            className="w-50 h-48 mx-auto bg-white/10 rounded-lg object-cover transition-transform duration-300 hover:scale-105"
                           />
                         ) : (
                           <div className="w-full h-48 bg-white/10 flex items-center justify-center">
@@ -228,7 +174,7 @@ export function ProductsSlider({
                               <svg className="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                               </svg>
-                              <p className="text-sm">Sem imagem</p>
+                              <p className="text-sm">{PRODUCT_CONSTANTS.DEFAULT_TEXTS.NO_IMAGE}</p>
                             </div>
                           </div>
                         )}
@@ -248,14 +194,18 @@ export function ProductsSlider({
                             {formatCurrency(product.price)}
                           </span>
                           <span className="text-sm text-gray-400">
-                            {product.stock} em estoque
+                            {product.stock} {PRODUCT_CONSTANTS.DEFAULT_TEXTS.STOCK_TEXT}
                           </span>
                         </div>
                         
                         <Button
                           onClick={() => handleAddToCart(product)}
                           disabled={loadingStates[product.id] || product.stock === 0}
-                          className="w-full bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white border-0"
+                          className={`w-full text-white border-0 transition-all duration-300 ${
+                            successStates[product.id] 
+                              ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700' 
+                              : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
+                          }`}
                         >
                           {loadingStates[product.id] ? (
                             <span className="flex items-center justify-center">
@@ -264,6 +214,13 @@ export function ProductsSlider({
                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                               </svg>
                               Adicionando...
+                            </span>
+                          ) : successStates[product.id] ? (
+                            <span className="flex items-center justify-center gap-2">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                              Adicionado!
                             </span>
                           ) : product.stock === 0 ? (
                             'Indisponível'
@@ -282,8 +239,34 @@ export function ProductsSlider({
             </motion.div>
           </AnimatePresence>
         </div>
+
+        {/* Right Navigation Button */}
+        <motion.button
+          onClick={nextSlide}
+          disabled={totalPages <= 1}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="p-3 md:p-4 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-white/20 flex-shrink-0"
+        >
+          <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+        </motion.button>
       </div>
-    </section>
+
+      {/* Page Indicators */}
+      <div className="flex justify-center mt-8 space-x-2">
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 ${
+              index === currentIndex ? 'bg-orange-500 scale-125' : 'bg-white/30'
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
     </>
   )
 }
+

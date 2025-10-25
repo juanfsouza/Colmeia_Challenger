@@ -2,6 +2,7 @@
 
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute'
 import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 import { Hero } from '@/components/Hero'
 import { FeaturedProducts } from '@/components/FeaturedProducts'
 import { ProductsSlider } from '@/features/products/components/ProductsSlider'
@@ -48,6 +49,9 @@ export default function ProductsPage() {
             subtitle="Descubra nossa variedade de sabores únicos"
           />
         )}
+        
+        {/* Footer */}
+        <Footer />
       </div>
     </ProtectedRoute>
   )

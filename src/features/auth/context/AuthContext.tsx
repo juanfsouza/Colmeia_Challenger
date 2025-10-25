@@ -1,26 +1,12 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { User, AuthState, LoginFormData, RegisterFormData } from '@/types'
+import React, { createContext, useContext, useState, useEffect } from 'react'
+import { User, LoginFormData, RegisterFormData, AuthContextType, AuthProviderProps } from '@/types'
 import { authSimulator } from '../services/mocks/simulator'
 import { getFromStorage, setToStorage, removeFromStorage } from '@/lib/utils'
-
-interface AuthContextType {
-  user: User | null
-  isAuthenticated: boolean
-  isLoading: boolean
-
-  login: (data: LoginFormData) => Promise<void>
-  register: (data: RegisterFormData) => Promise<void>
-  logout: () => void
-  getCurrentUser: () => Promise<void>
-}
+import { STORAGE_KEYS } from '@/lib/constants'
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
-
-interface AuthProviderProps {
-  children: ReactNode
-}
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null)
@@ -35,7 +21,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       
       const userData = await authSimulator.login(data.email, data.password)
       setUser(userData)
-      setToStorage('currentUser', userData)
+      setToStorage(STORAGE_KEYS.USER, userData)
       
     } catch (error) {
       throw error
@@ -51,7 +37,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const userData = await authSimulator.register(data.name, data.email, data.password)
       
       setUser(userData)
-      setToStorage('currentUser', userData)
+      setToStorage(STORAGE_KEYS.USER, userData)
       
     } catch (error) {
       throw error
@@ -62,14 +48,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = () => {
     setUser(null)
-    removeFromStorage('currentUser')
+    removeFromStorage(STORAGE_KEYS.USER)
   }
 
   const getCurrentUser = async () => {
     try {
       setIsLoading(true)
       
-      const storedUser = getFromStorage<User>('currentUser')
+      const storedUser = getFromStorage<User>(STORAGE_KEYS.USER)
       if (storedUser) {
         setUser(storedUser)
         return
@@ -81,7 +67,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
       
     } catch (error) {
-      removeFromStorage('currentUser')
+      removeFromStorage(STORAGE_KEYS.USER)
       setUser(null)
     } finally {
       setIsLoading(false)

@@ -10,7 +10,7 @@ export function Hero() {
   }
 
   return (
-    <div className="relative min-h-[120vh] w-full overflow-hidden">
+    <div className="relative min-h-[10vh] lg:min-h-[120vh] w-full overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
@@ -41,7 +41,7 @@ export function Hero() {
             </motion.div>
 
             <TextAnimate
-                className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight drop-shadow-2xl"
+                className="text-5xl md:text-7xl lg:text-8xl font-bold text-black lg:text-white mb-6 leading-tight drop-shadow-2xl"
                 by="character"
                 animation="slideDown"
                 delay={0.9}
@@ -53,7 +53,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.1 }}
-              className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl leading-relaxed drop-shadow-lg"
+              className="text-xl md:text-2xl lg:text-white text-black  mb-8 max-w-2xl leading-relaxed drop-shadow-lg"
             >
               Descubra produtos incríveis com qualidade excepcional e preços que cabem no seu bolso
             </motion.p>
@@ -81,7 +81,7 @@ export function Hero() {
               </button>
               <button
                 onClick={scrollToProducts}
-                className="group border-2 border-white/30 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-white/10 hover:border-white/50 transition-all duration-300 hover:scale-105 backdrop-blur-sm shadow-xl hover:shadow-white/10"
+                className="group border-2 border-white/30 text-black  lg:text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-white/10 hover:border-white/50 transition-all duration-300 hover:scale-105 backdrop-blur-sm shadow-xl hover:shadow-white/10"
               >
                 <span className="flex items-center gap-2">
                   Ver Todos os Produtos
