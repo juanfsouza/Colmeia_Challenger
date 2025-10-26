@@ -7,21 +7,18 @@ import { useAuth } from '@/features/auth/context/AuthContext'
 import { OrderSummary } from './OrderSummary'
 import { PaymentMethodSelector } from './PaymentMethodSelector'
 import { PaymentForm } from './PaymentForm'
-import { PaymentStatusTracker, PaymentStatus } from './PaymentStatusTracker'
-import { PaymentMethodType, Order } from '@/types'
+import { PaymentMethodType } from '@/types'
 import toast from 'react-hot-toast'
 import { motion } from 'framer-motion'
 import { ShoppingBag, ArrowLeft, CheckCircle, XCircle, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export function CheckoutClient() {
-  const { items, clearCart } = useCart()
+  const { items } = useCart()
   const { user } = useAuth()
   const router = useRouter()
   
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethodType | null>(null)
-  const [currentOrder, setCurrentOrder] = useState<Order | null>(null)
-  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus | null>(null)
   const [testStatus, setTestStatus] = useState<'paid' | 'failed' | 'expired' | null>(null)
 
   // Redireciona se carrinho estiver vazio
@@ -50,34 +47,6 @@ export function CheckoutClient() {
     router.push(`/checkout/result/${testStatus}?orderId=${orderId}&paymentMethod=${paymentMethod}`)
   }
 
-  const handleStatusChange = (status: PaymentStatus) => {
-    setPaymentStatus(status)
-    
-    if (status === 'paid') {
-      toast.success('Pagamento realizado com sucesso!')
-      clearCart()
-      setTimeout(() => {
-        router.push(`/checkout/result/paid?orderId=${currentOrder?.id}&paymentMethod=${currentOrder?.paymentMethod.type}`)
-      }, 2000)
-    } else if (status === 'failed') {
-      toast.error('Pagamento falhou. Tente novamente.')
-      setTimeout(() => {
-        router.push(`/checkout/result/failed?orderId=${currentOrder?.id}&paymentMethod=${currentOrder?.paymentMethod.type}`)
-      }, 2000)
-    } else if (status === 'expired') {
-      toast.error('Pagamento expirado. Tente novamente.')
-      setTimeout(() => {
-        router.push(`/checkout/result/expired?orderId=${currentOrder?.id}&paymentMethod=${currentOrder?.paymentMethod.type}`)
-      }, 2000)
-    }
-  }
-
-  const handleRetry = () => {
-    setCurrentOrder(null)
-    setPaymentStatus(null)
-    setSelectedMethod(null)
-    setTestStatus(null)
-  }
 
   if ((items || []).length === 0) {
     return (
@@ -109,24 +78,6 @@ export function CheckoutClient() {
     )
   }
 
-  // Se há um pedido em andamento, mostra o tracker de status
-  if (currentOrder && paymentStatus) {
-    return (
-      <motion.div 
-        className="max-w-2xl mx-auto"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <PaymentStatusTracker
-          orderId={currentOrder.id}
-          paymentMethod={currentOrder.paymentMethod.type}
-          onStatusChange={handleStatusChange}
-          onRetry={handleRetry}
-        />
-      </motion.div>
-    )
-  }
 
   return (
     <>

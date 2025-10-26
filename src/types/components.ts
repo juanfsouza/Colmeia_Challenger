@@ -1,4 +1,3 @@
-import { PaymentStatus } from '@/features/checkout/components/PaymentStatusTracker'
 import { Product, PixData, CreditCardData, BoletoData, PaymentMethodType } from './index'
 
 export interface AuthProviderProps {
@@ -48,13 +47,6 @@ export interface PaymentMethodSelectorProps {
   onSelectMethod: (method: PaymentMethodType) => void
 }
 
-export interface PaymentStatusTrackerProps {
-  orderId: string
-  paymentMethod: PaymentMethodType
-  onStatusChange: (status: PaymentStatus) => void
-  onRetry: () => void
-}
-
 export interface PaymentResultPageProps {
   params: Promise<{
     status: 'paid' | 'failed' | 'expired'
@@ -89,9 +81,3 @@ export interface TextAnimateProps {
   duration?: number
 }
 
-export interface StatusStep {
-  id: PaymentStatus
-  label: string
-  description: string
-  icon: string
-}
