@@ -67,6 +67,16 @@ export interface Order {
   updatedAt: Date
 }
 
+export interface PaymentResult {
+  success: boolean
+  transactionId?: string
+  orderId?: string
+  qrCode?: string
+  code?: string
+  message?: string
+  error?: string
+}
+
 export interface LoginFormData {
   email: string
   password: string

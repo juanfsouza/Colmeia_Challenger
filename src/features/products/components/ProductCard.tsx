@@ -1,6 +1,5 @@
 'use client'
 
-import { Product } from '@/types'
 import { formatCurrency } from '@/lib/utils'
 import { useState } from 'react'
 import { useCart } from '@/features/cart/context/CartContext'
@@ -8,10 +7,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { motion } from 'framer-motion'
-
-interface ProductCardProps {
-  product: Product
-}
+import { ProductCardProps } from '@/types/components'
 
 export function ProductCard({ product }: ProductCardProps) {
   const [isLoading, setIsLoading] = useState(false)

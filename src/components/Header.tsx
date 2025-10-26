@@ -85,7 +85,7 @@ export function Header() {
               >
                 <ShoppingCart className="h-5 w-5" />
                 {totalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                  <span className="absolute -top-2 -right-2 bg-orange-500 border border-white text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
                     {totalItems}
                   </span>
                 )}
@@ -94,7 +94,7 @@ export function Header() {
               {/* User Menu */}
               <div className="flex items-center space-x-3">
                 <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 bg-orange-500 border border-white rounded-full flex items-center justify-center">
                     <User className="h-4 w-4 text-white" />
                   </div>
                   <span className={`text-sm font-medium transition-colors ${

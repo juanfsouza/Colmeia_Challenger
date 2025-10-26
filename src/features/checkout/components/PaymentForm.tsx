@@ -1,9 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { PaymentMethodType, PixData, CreditCardData, BoletoData } from '@/types'
 import { CreditCardFormData, PixFormData } from '@/lib/validations'
 import { creditCardSchema, pixSchema } from '@/lib/validations'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -12,15 +10,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { motion } from 'framer-motion'
 import { CreditCard, Zap, FileText, Lock, User, Calendar, Shield } from 'lucide-react'
+import { PaymentFormProps } from '@/types/components'
 
-interface PaymentFormProps {
-  selectedMethod: PaymentMethodType | null
-  onSubmit: (data: { type: 'pix' | 'credit_card' | 'boleto'; data: PixData | CreditCardData | BoletoData }) => void
-  isLoading: boolean
-}
 
 export function PaymentForm({ selectedMethod, onSubmit, isLoading }: PaymentFormProps) {
-  const [formData, setFormData] = useState<{ type?: 'pix' | 'credit_card' | 'boleto'; data?: PixData | CreditCardData | BoletoData }>({})
 
   const creditCardForm = useForm<CreditCardFormData>({
     resolver: zodResolver(creditCardSchema),
@@ -113,17 +106,17 @@ export function PaymentForm({ selectedMethod, onSubmit, isLoading }: PaymentForm
                 Número do Cartão
               </Label>
               <Input
-                {...creditCardForm.register('number')}
+                {...creditCardForm.register('number', {
+                  onChange: (e) => {
+                    const formatted = formatCreditCardNumber(e.target.value)
+                    creditCardForm.setValue('number', formatted)
+                  }
+                })}
                 type="text"
                 id="number"
                 placeholder="1234 5678 9012 3456"
                 maxLength={19}
                 className="h-12 md:h-14 text-base md:text-lg font-mono tracking-wider bg-white/50 dark:bg-gray-700/50 border-orange-200 dark:border-orange-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-orange-500 focus:bg-white dark:focus:bg-gray-700 backdrop-blur-sm rounded-xl md:rounded-2xl"
-                onChange={(e) => {
-                  const formatted = formatCreditCardNumber(e.target.value)
-                  e.target.value = formatted
-                  creditCardForm.setValue('number', formatted)
-                }}
               />
               {creditCardForm.formState.errors.number && (
                 <p className="text-xs md:text-sm text-red-600 flex items-center">
@@ -162,17 +155,17 @@ export function PaymentForm({ selectedMethod, onSubmit, isLoading }: PaymentForm
                   Validade
                 </Label>
                 <Input
-                  {...creditCardForm.register('expiry')}
+                  {...creditCardForm.register('expiry', {
+                    onChange: (e) => {
+                      const formatted = formatExpiryDate(e.target.value)
+                      creditCardForm.setValue('expiry', formatted)
+                    }
+                  })}
                   type="text"
                   id="expiry"
                   placeholder="MM/AA"
                   maxLength={5}
                   className="h-12 md:h-14 text-base md:text-lg font-mono bg-white/50 dark:bg-gray-700/50 border-orange-200 dark:border-orange-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-orange-500 focus:bg-white dark:focus:bg-gray-700 backdrop-blur-sm rounded-xl md:rounded-2xl"
-                  onChange={(e) => {
-                    const formatted = formatExpiryDate(e.target.value)
-                    e.target.value = formatted
-                    creditCardForm.setValue('expiry', formatted)
-                  }}
                 />
                 {creditCardForm.formState.errors.expiry && (
                   <p className="text-xs md:text-sm text-red-600 flex items-center">

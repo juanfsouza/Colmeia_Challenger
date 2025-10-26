@@ -64,7 +64,7 @@ export const pixSchema = z.object({
 // Schema para checkout
 export const checkoutSchema = z.object({
   paymentMethod: z.enum(['pix', 'credit_card', 'boleto'], {
-    required_error: 'Método de pagamento é obrigatório'
+    message: 'Método de pagamento é obrigatório'
   }),
   creditCard: creditCardSchema.optional(),
   pix: pixSchema.optional()

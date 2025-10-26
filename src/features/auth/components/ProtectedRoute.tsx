@@ -4,11 +4,7 @@ import React from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-
-interface ProtectedRouteProps {
-  children: React.ReactNode
-  redirectTo?: string
-}
+import { ProtectedRouteProps } from '@/types/components'
 
 export function ProtectedRoute({ children, redirectTo = '/login' }: ProtectedRouteProps) {
   const { isAuthenticated, isLoading } = useAuth()

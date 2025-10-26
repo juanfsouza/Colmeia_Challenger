@@ -1,4 +1,4 @@
-import { delay, shouldSimulateFailure, generateId, generateOrderId } from '@/lib/utils'
+import { delay, generateId, generateOrderId } from '@/lib/utils'
 import { 
   mockUsers, 
   mockPasswords, 
@@ -7,7 +7,6 @@ import {
 } from '../mockAuthData'
 import { 
   User, 
-  Product, 
   Order, 
   OrderStatus, 
   PaymentMethodType, 
@@ -97,7 +96,7 @@ export class PaymentSimulator {
   }
   
   private getRandomErrorMessage(paymentType: PaymentMethodType): string {
-    const errorMessages = {
+    const errorMessages: Record<PaymentMethodType, string[]> = {
       pix: [
         'Chave PIX inválida',
         'Conta bloqueada',
@@ -116,7 +115,18 @@ export class PaymentSimulator {
     }
     
     const messages = errorMessages[paymentType]
-    return messages[Math.floor(Math.random() * messages.length)]
+    if (!messages || messages.length === 0) {
+      throw new Error('Tipo de pagamento inválido ou sem mensagens de erro.')
+    }
+    
+    const randomIndex = Math.floor(Math.random() * messages.length)
+    const selectedMessage = messages[randomIndex]
+    
+    if (!selectedMessage) {
+      throw new Error('Erro ao selecionar mensagem de erro.')
+    }
+    
+    return selectedMessage
   }
 }
 

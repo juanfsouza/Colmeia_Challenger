@@ -87,11 +87,6 @@ export function CartProvider({ children }: CartProviderProps) {
     return cart.items.reduce((sum, item) => sum + item.quantity, 0)
   }
 
-  // Retorna o preço total do carrinho
-  const getTotalPrice = () => {
-    return cart.total
-  }
-
   // Carrega carrinho do localStorage ao inicializar
   useEffect(() => {
     const storedCart = getFromStorage<Cart>(STORAGE_KEYS.CART)

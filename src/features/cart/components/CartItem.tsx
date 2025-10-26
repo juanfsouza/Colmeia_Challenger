@@ -1,13 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { CartItem as CartItemType } from '@/types'
 import { formatCurrency } from '@/lib/utils'
 import { useCart } from '../context/CartContext'
-
-interface CartItemProps {
-  item: CartItemType
-}
+import { CartItemProps } from '@/types/components'
 
 export function CartItem({ item }: CartItemProps) {
   const { updateQuantity, removeFromCart } = useCart()

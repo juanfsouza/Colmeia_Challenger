@@ -6,11 +6,7 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { motion } from 'framer-motion'
 import { CreditCard, Zap, FileText } from 'lucide-react'
-
-interface PaymentMethodSelectorProps {
-  selectedMethod: PaymentMethodType | null
-  onMethodChange: (method: PaymentMethodType) => void
-}
+import { PaymentMethodSelectorProps } from '@/types/components' 
 
 const paymentMethods = [
   {
@@ -42,7 +38,7 @@ const paymentMethods = [
   }
 ]
 
-export function PaymentMethodSelector({ selectedMethod, onMethodChange }: PaymentMethodSelectorProps) {
+export function PaymentMethodSelector({ selectedMethod, onSelectMethod }: PaymentMethodSelectorProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -57,7 +53,7 @@ export function PaymentMethodSelector({ selectedMethod, onMethodChange }: Paymen
           </CardTitle>
         </CardHeader>
         <CardContent className="p-4 md:p-6 lg:p-8">
-          <RadioGroup value={selectedMethod || ''} onValueChange={onMethodChange}>
+          <RadioGroup value={selectedMethod || ''} onValueChange={onSelectMethod}>
             <div className="space-y-3 md:space-y-4">
               {paymentMethods.map((method, index) => {
                 const IconComponent = method.icon

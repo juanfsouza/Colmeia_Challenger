@@ -5,22 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { PaymentMethodType } from '@/types'
-
-interface PaymentStatusTrackerProps {
-  orderId: string
-  paymentMethod: PaymentMethodType
-  onStatusChange: (status: PaymentStatus) => void
-  onRetry: () => void
-}
+import { PaymentStatusTrackerProps, StatusStep } from '@/types/components'
 
 export type PaymentStatus = 'pending' | 'processing' | 'paid' | 'failed' | 'expired'
-
-interface StatusStep {
-  id: PaymentStatus
-  label: string
-  description: string
-  icon: string
-}
 
 const statusSteps: StatusStep[] = [
   {
@@ -73,16 +60,18 @@ export function PaymentStatusTracker({ orderId, paymentMethod, onStatusChange, o
       const processingTime = getProcessingTime(paymentMethod)
       await new Promise(resolve => setTimeout(resolve, processingTime))
       
-      // Simula resultado (100% sucesso em desenvolvimento)
-      const isSuccess = true // Sempre sucesso para testes
+      // Simula diferentes cenários para teste
+      const scenarios = ['paid', 'failed', 'expired']
+      const randomScenario = scenarios[Math.floor(Math.random() * scenarios.length)]
+      
+      // Para desenvolvimento, vamos simular diferentes cenários
+      const isSuccess = randomScenario === 'paid'
       
       if (isSuccess) {
         setCurrentStatus('paid')
         onStatusChange('paid')
       } else {
-        // Simula diferentes tipos de falha
-        const failureType = Math.random()
-        if (failureType > 0.7) {
+        if (randomScenario === 'expired') {
           setCurrentStatus('expired')
           onStatusChange('expired')
         } else {

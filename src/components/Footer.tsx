@@ -8,42 +8,22 @@ import {
   Mail, 
   Phone, 
   MapPin, 
-  Heart,
-  Shield,
-  Truck,
-  Clock,
   CreditCard
 } from 'lucide-react'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
 
-  const footerVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
-  }
-
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
+      y: 0
     }
   }
 
   return (
-    <motion.footer 
-      className="bg-gradient-to-tr from-gray-900 via-gray-800 to-black text-white relative overflow-hidden"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={footerVariants}
-    >
+    <footer className="bg-gradient-to-tr from-gray-900 via-gray-800 to-black text-white relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="w-full h-full" style={{
@@ -58,10 +38,11 @@ export function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
             {/* Company Info */}
-            <motion.div 
-              className="lg:col-span-1"
-              variants={itemVariants}
-            >
+                   <motion.div
+                     className="lg:col-span-1"
+                     variants={itemVariants}
+                     transition={{ duration: 0.6, ease: "easeOut" }}
+                   >
               <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
                 Comeia Store
               </h3>
@@ -97,7 +78,10 @@ export function Footer() {
             </motion.div>
 
             {/* Quick Links */}
-            <motion.div variants={itemVariants}>
+                   <motion.div 
+                     variants={itemVariants}
+                     transition={{ duration: 0.6, ease: "easeOut" }}
+                   >
               <h4 className="text-lg font-semibold mb-6 text-orange-400">Links Rápidos</h4>
               <ul className="space-y-3">
                 <li>
@@ -129,7 +113,10 @@ export function Footer() {
             </motion.div>
 
             {/* Customer Service */}
-            <motion.div variants={itemVariants}>
+                   <motion.div 
+                     variants={itemVariants}
+                     transition={{ duration: 0.6, ease: "easeOut" }}
+                   >
               <h4 className="text-lg font-semibold mb-6 text-orange-400">Atendimento</h4>
               <ul className="space-y-3">
                 <li>
@@ -161,7 +148,10 @@ export function Footer() {
             </motion.div>
 
             {/* Contact Info */}
-            <motion.div variants={itemVariants}>
+                   <motion.div 
+                     variants={itemVariants}
+                     transition={{ duration: 0.6, ease: "easeOut" }}
+                   >
               <h4 className="text-lg font-semibold mb-6 text-orange-400">Contato</h4>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
@@ -222,6 +212,6 @@ export function Footer() {
       {/* Decorative Elements */}
       <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-orange-400/10 to-amber-400/10 rounded-full blur-xl"></div>
       <div className="absolute bottom-10 right-10 w-40 h-40 bg-gradient-to-r from-orange-500/10 to-yellow-500/10 rounded-full blur-xl"></div>
-    </motion.footer>
+    </footer>
   )
 }

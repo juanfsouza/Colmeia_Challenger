@@ -1,4 +1,5 @@
-import { PixData, CreditCardData, BoletoData } from './index'
+import { PaymentStatus } from '@/features/checkout/components/PaymentStatusTracker'
+import { Product, PixData, CreditCardData, BoletoData, PaymentMethodType } from './index'
 
 export interface AuthProviderProps {
   children: React.ReactNode
@@ -6,6 +7,7 @@ export interface AuthProviderProps {
 
 export interface ProtectedRouteProps {
   children: React.ReactNode
+  redirectTo?: string
 }
 
 export interface CartProviderProps {
@@ -14,16 +16,9 @@ export interface CartProviderProps {
 
 export interface CartItemProps {
   item: {
-    product: {
-      id: string
-      name: string
-      price: number
-      image: string
-    }
+    product: Pick<Product, 'id' | 'name' | 'price' | 'image'>
     quantity: number
   }
-  onUpdateQuantity: (productId: string, quantity: number) => void
-  onRemove: (productId: string) => void
 }
 
 export interface CartSidebarProps {
@@ -32,54 +27,42 @@ export interface CartSidebarProps {
 }
 
 export interface ProductCardProps {
-  product: {
-    id: string
-    name: string
-    price: number
-    description: string
-    image: string
-    category: string
-    stock: number
-  }
+  product: Product
 }
 
 export interface ProductsSliderProps {
-  products: Array<{
-    id: string
-    name: string
-    price: number
-    description: string
-    image: string
-    category: string
-    stock: number
-  }>
-  onAddToCart: (product: {
-    id: string
-    name: string
-    price: number
-    description: string
-    image: string
-    category: string
-    stock: number
-  }) => void
+  products: Product[]
+  onAddToCart: (product: Product) => void
   title?: string
   subtitle?: string
 }
 
 export interface PaymentFormProps {
-  selectedMethod: 'pix' | 'credit_card' | 'boleto' | null
-  onSubmit: (data: { type: 'pix' | 'credit_card' | 'boleto'; data: PixData | CreditCardData | BoletoData }) => void
+  selectedMethod: PaymentMethodType | null
+  onSubmit: (data: { type: PaymentMethodType; data: PixData | CreditCardData | BoletoData }) => void
   isLoading: boolean
 }
 
 export interface PaymentMethodSelectorProps {
-  selectedMethod: 'pix' | 'credit_card' | 'boleto' | null
-  onSelectMethod: (method: 'pix' | 'credit_card' | 'boleto') => void
+  selectedMethod: PaymentMethodType | null
+  onSelectMethod: (method: PaymentMethodType) => void
 }
 
 export interface PaymentStatusTrackerProps {
-  status: 'pending' | 'processing' | 'paid' | 'failed' | 'expired'
-  orderId?: string
+  orderId: string
+  paymentMethod: PaymentMethodType
+  onStatusChange: (status: PaymentStatus) => void
+  onRetry: () => void
+}
+
+export interface PaymentResultPageProps {
+  params: Promise<{
+    status: 'paid' | 'failed' | 'expired'
+  }>
+}
+
+export interface PaymentResultContentProps {
+  status: 'paid' | 'failed' | 'expired'
 }
 
 export interface CurvedLoopProps {
@@ -104,4 +87,11 @@ export interface TextAnimateProps {
   animation?: 'slideUp' | 'fadeIn' | 'slideLeft' | 'slideRight'
   delay?: number
   duration?: number
+}
+
+export interface StatusStep {
+  id: PaymentStatus
+  label: string
+  description: string
+  icon: string
 }

@@ -1,4 +1,4 @@
-import { Order, PaymentMethod, PaymentResult, OrderStatus, CartItem, User, PixData } from '@/types'
+import { Order, PaymentMethod, PaymentResult, CartItem, User } from '@/types'
 import { delay, generateOrderId } from '@/lib/utils'
 
 export class CheckoutService {
@@ -47,23 +47,7 @@ export class CheckoutService {
     return order
   }
 
-  // Atualiza status do pedido
-  async updateOrderStatus(orderId: string, status: OrderStatus): Promise<Order | null> {
-    await delay(500)
-    
-    // Em uma aplicação real, isso seria uma chamada para a API
-    return null
-  }
 
-  // Simula geração de PIX
-  async generatePix(paymentData: PixData): Promise<{ qrCode: string; code: string }> {
-    await delay(1500)
-    
-    return {
-      qrCode: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==',
-      code: '00020126580014br.gov.bcb.pix0136a1f4e2a3-4b5c-6d7e-8f9a-0b1c2d3e4f5f520400005303986540510.005802BR5913COMERCIO TESTE6008BRASILIA62070503***6304'
-    }
-  }
 
   // Simula geração de boleto
   async generateBoleto(orderId: string): Promise<{ boletoUrl: string; dueDate: string }> {
@@ -109,7 +93,19 @@ export class CheckoutService {
     }
     
     const paymentMessages = messages[paymentType] || ['Erro no processamento']
-    return paymentMessages[Math.floor(Math.random() * paymentMessages.length)]
+    
+    if (!paymentMessages || paymentMessages.length === 0) {
+      return 'Erro no processamento'
+    }
+    
+    const randomIndex = Math.floor(Math.random() * paymentMessages.length)
+    const selectedMessage = paymentMessages[randomIndex]
+    
+    if (!selectedMessage) {
+      return 'Erro no processamento'
+    }
+    
+    return selectedMessage
   }
 }
 

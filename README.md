@@ -16,6 +16,8 @@ Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
 
 ## 🌐 Deploy
 
+https://comeia-challenger.vercel.app/products
+
 A aplicação está configurada para deploy no Vercel:
 
 

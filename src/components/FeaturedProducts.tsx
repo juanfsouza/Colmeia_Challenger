@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowUpRight, ShoppingCart } from 'lucide-react'
+import { ShoppingCart } from 'lucide-react'
 import { useCart } from '@/features/cart/context/CartContext'
 import { Product } from '@/types'
 import { formatCurrency } from '@/lib/utils'
